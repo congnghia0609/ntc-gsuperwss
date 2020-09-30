@@ -1,7 +1,7 @@
 /**
  *
  * @author nghiatc
- * @since Aug 8, 2018
+ * @since Sep 30, 2020
  */
 
 package main
@@ -9,6 +9,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"ntc-gsuperwss/nwss"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -54,6 +55,8 @@ func initLogger() {
 	})
 }
 
+// https://github.com/eranyanay/1m-go-websockets/
+// https://github.com/gobwas/ws
 func main() {
 	////// -------------------- Init System -------------------- //////
 	// Init NConf
@@ -70,6 +73,7 @@ func main() {
 	// dpwss = wss.NewDPWSServer(wss.NameDPWSS)
 	// log.Printf("======= DPWSServer[%s] is ready...", dpwss.GetName())
 	// go dpwss.Start()
+	nwss.Run()
 
 	////// -------------------- Start WSClient -------------------- //////
 	// // // DPWSClient
