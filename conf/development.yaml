@@ -1,0 +1,16 @@
+
+ngrpc:
+  gserver:
+    address: 0.0.0.0:3333
+    is_ssl: false
+    cert_file: ssl/server.crt
+    key_file: ssl/server.pem
+
+  gclient:
+    # grpc-go
+    target: localhost:3333
+    # grpc-haproxy | grpc-nginx
+    #target: localhost:3330
+    is_ssl: false
+    cert_file: ssl/client.crt
+
