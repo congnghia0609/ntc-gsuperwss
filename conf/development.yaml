@@ -8,5 +8,5 @@ ticker24hclient:
 ticker24h:
   nwss:
     host: 0.0.0.0:15801
-    path: /ws/v1/tk
+    # path: /ws/v1/tk
 

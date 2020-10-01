@@ -56,25 +56,6 @@ func NewTKNWSServer(name string) *TKNWSServer {
 	return instance
 }
 
-func (nwss *TKNWSServer) wsTKHandler(w http.ResponseWriter, r *http.Request) {
-	// Upgrade connection
-	conn, _, _, err := ws.UpgradeHTTP(r, w)
-	if err != nil {
-		return
-	}
-	if _, err := nwss.epoller.Add(conn); err != nil {
-		log.Printf("Failed to add connection: %v", err)
-		conn.Close()
-		return
-	}
-	// Push message connected successfully.
-	msgsc := `{"err":0,"msg":"Connected successfully"}`
-	err1 := wsutil.WriteServerMessage(conn, ws.OpText, []byte(msgsc))
-	if err1 != nil {
-		log.Printf("Send to client failed: %v", err)
-	}
-}
-
 // closeConn close connection
 func (nwss *TKNWSServer) closeConn(conn net.Conn) {
 	if err := nwss.epoller.Remove(conn); err != nil {
@@ -150,7 +131,7 @@ func (nwss *TKNWSServer) broadcastData() {
 					}
 				},
 				Catch: func(e util.Exception) {
-					log.Printf("TKNWSServer.broadcast Caught %v\n", e)
+					log.Printf("TKNWSServer.broadcast Caught: %v\n", e)
 				},
 				Finally: func() {
 					//log.Println("Finally...")
@@ -166,13 +147,11 @@ func (nwss *TKNWSServer) BroadcastMsgByte(message []byte) {
 		Try: func() {
 			if len(message) > 0 {
 				// log.Printf("message: %s", message)
-				if len(message) > 0 {
-					nwss.broadcast <- message
-				}
+				nwss.broadcast <- message
 			}
 		},
 		Catch: func(e util.Exception) {
-			log.Printf("TKNWSServer.BroadcastMsgByte Caught %v\n", e)
+			log.Printf("TKNWSServer.BroadcastMsgByte Caught: %v\n", e)
 		},
 		Finally: func() {
 			//log.Println("Finally...")
@@ -180,17 +159,37 @@ func (nwss *TKNWSServer) BroadcastMsgByte(message []byte) {
 	}.Do()
 }
 
+// wsTKHandler ws handler
+func (nwss *TKNWSServer) wsTKHandler(w http.ResponseWriter, r *http.Request) {
+	// Upgrade connection
+	conn, _, _, err := ws.UpgradeHTTP(r, w)
+	if err != nil {
+		return
+	}
+	if _, err := nwss.epoller.Add(conn); err != nil {
+		log.Printf("Failed to add connection: %v", err)
+		conn.Close()
+		return
+	}
+	// Push message connected successfully.
+	msgsc := `{"err":0,"msg":"Connected successfully"}`
+	err1 := wsutil.WriteServerMessage(conn, ws.OpText, []byte(msgsc))
+	if err1 != nil {
+		log.Printf("Send to client failed: %v", err)
+	}
+}
+
 // Start websocket server
 func (nwss *TKNWSServer) Start() {
 	// read config
 	c := nconf.GetConfig()
 	host := c.GetString(nwss.name + ".nwss.host")
-	path := c.GetString(nwss.name + ".nwss.path")
+	// path := c.GetString(nwss.name + ".nwss.path")
 
 	go nwss.broadcastData()
 	go nwss.readClientData()
 
-	http.HandleFunc(path, nwss.wsTKHandler)
+	http.HandleFunc("/ws/v1/tk", nwss.wsTKHandler)
 	log.Printf("======= TKNWSServer[%s] is running on host: %s\n", nwss.name, host)
 	if err := http.ListenAndServe(host, nil); err != nil {
 		log.Fatal(err)
