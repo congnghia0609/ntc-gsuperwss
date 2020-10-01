@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	_ "net/http/pprof"
+	"ntc-gsuperwss/nwsc"
 	"ntc-gsuperwss/nwss"
 	"os"
 	"os/signal"
@@ -27,14 +28,16 @@ import (
 // var dpwss *wss.DPWSServer
 // var htwss *wss.HTWSServer
 // var cswss *wss.CSWSServer
-// var tkwss *wss.TKWSServer
+var tknwss *nwss.TKNWSServer
+
 // var crwss *wss.CRWSServer
 
 // // WSClient
 // var dpwsc *wsc.NWSClient
 // var cswsc *wsc.NWSClient
 // var htwsc *wsc.NWSClient
-// var tkwsc *wsc.NWSClient
+var tkwsc *nwsc.NWSClient
+
 // var crwsc *wsc.NWSClient
 // var rswsc *wsc.NWSClient
 
@@ -75,8 +78,8 @@ func increaseLimit() {
 // https://github.com/gobwas/ws
 func main() {
 	// ////// -------------------- Init System -------------------- //////
-	// // Init NConf
-	// InitNConf()
+	// Init NConf
+	InitNConf()
 
 	// //// init Logger
 	// if "development" != nconf.GetEnv() {
@@ -99,13 +102,21 @@ func main() {
 	// dpwss = wss.NewDPWSServer(wss.NameDPWSS)
 	// log.Printf("======= DPWSServer[%s] is ready...", dpwss.GetName())
 	// go dpwss.Start()
-	nwss.Run()
+	//// Run TKNWSServer
+	tknwss = nwss.NewTKNWSServer(nwss.NameTKNWSS)
+	log.Printf("======= TKNWSServer[%s] is ready...", tknwss.GetName())
+	go tknwss.Start()
 
 	////// -------------------- Start WSClient -------------------- //////
 	// // // DPWSClient
 	// dpwsc = wsc.NewDPWSClient()
 	// defer dpwsc.Close()
 	// go dpwsc.StartDPWSClient()
+
+	// // TKWSClient
+	tkwsc = nwsc.NewTKWSClient()
+	defer tkwsc.Close()
+	go tkwsc.StartTKWSClient()
 
 	////// -------------------- Start WebServer -------------------- //////
 	// // StartWebServer

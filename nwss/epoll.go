@@ -45,12 +45,12 @@ func websocketFD(conn net.Conn) int {
 }
 
 // Add add connection to epoll
-func (e *epoll) Add(conn net.Conn) error {
+func (e *epoll) Add(conn net.Conn) (int, error) {
 	// Extract file descriptor associated with the connection
 	fd := websocketFD(conn)
 	err := unix.EpollCtl(e.fd, syscall.EPOLL_CTL_ADD, fd, &unix.EpollEvent{Events: unix.POLLIN | unix.POLLHUP, Fd: int32(fd)})
 	if err != nil {
-		return err
+		return fd, err
 	}
 	e.lock.Lock()
 	defer e.lock.Unlock()
@@ -58,7 +58,12 @@ func (e *epoll) Add(conn net.Conn) error {
 	if len(e.connections)%100 == 0 {
 		log.Printf("Total number of connections: %v", len(e.connections))
 	}
-	return nil
+	return fd, nil
+}
+
+// Get get conn from epoll
+func (e *epoll) Get(fd int) net.Conn {
+	return e.connections[fd]
 }
 
 // Remove delete conn from epoll

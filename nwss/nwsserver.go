@@ -22,9 +22,16 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		return
 	}
-	if err := epoller.Add(conn); err != nil {
+	if _, err := epoller.Add(conn); err != nil {
 		log.Printf("Failed to add connection: %v", err)
 		conn.Close()
+		return
+	}
+	// Push message connected successfully.
+	msgsc := `{"err":0,"msg":"Connected successfully"}`
+	err1 := wsutil.WriteServerMessage(conn, ws.OpText, []byte(msgsc))
+	if err1 != nil {
+		log.Printf("Send to client failed: %v", err)
 	}
 }
 
@@ -38,7 +45,7 @@ func Start() {
 		}
 		for _, conn := range connections {
 			if conn == nil {
-				break
+				continue
 			}
 			// msg, op, err := wsutil.ReadClientData(conn)
 			_, _, err := wsutil.ReadClientData(conn)
@@ -48,9 +55,12 @@ func Start() {
 				}
 				conn.Close()
 			} else {
+				/// Process Business Here.
+
 				// This is commented out since in demo usage,
 				// stdout is showing messages sent from > 1M connections at very high rate
 				// log.Printf("msg: %s", string(msg))
+				// log.Printf("msg: %s | op: %v | err: %v", string(msg), op, err)
 				// err := wsutil.WriteServerMessage(conn, op, msg)
 				// if err != nil {
 				// 	log.Printf("Send to client failed: %v", err)
