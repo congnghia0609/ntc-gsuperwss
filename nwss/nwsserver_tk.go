@@ -20,12 +20,12 @@ import (
 // TKNWSServer struct
 type TKNWSServer struct {
 	name    string
-	epoller *epoll
+	epoller *NEpoll
 	// Inbound message from the clients.
 	broadcast chan []byte
 }
 
-// var epoller *epoll
+// mapInstanceTK management instance
 var mapInstanceTK = make(map[string]*TKNWSServer)
 
 // GetInstanceTK get instance TK
@@ -38,22 +38,39 @@ func (nwss *TKNWSServer) GetName() string {
 	return nwss.name
 }
 
-// GetEpoll get epoll
-func (nwss *TKNWSServer) GetEpoll() *epoll {
+// GetNEpoll get NEpoll
+func (nwss *TKNWSServer) GetNEpoll() *NEpoll {
 	return nwss.epoller
 }
 
 // NewTKNWSServer new TKNWSServer
 func NewTKNWSServer(name string) *TKNWSServer {
-	// New epoll
-	var err error
-	epoller, err = MkEpoll()
+	// New NEpoll
+	epoller, err := MkNEpoll()
 	if err != nil {
 		panic(err)
 	}
 	instance := &TKNWSServer{name: name, epoller: epoller, broadcast: make(chan []byte)}
 	mapInstanceTK[name] = instance
 	return instance
+}
+
+// BroadcastMsgByte broadcast msg byte
+func (nwss *TKNWSServer) BroadcastMsgByte(message []byte) {
+	util.TCF{
+		Try: func() {
+			if len(message) > 0 {
+				// log.Printf("message: %s", message)
+				nwss.broadcast <- message
+			}
+		},
+		Catch: func(e util.Exception) {
+			log.Printf("TKNWSServer.BroadcastMsgByte Caught: %v\n", e)
+		},
+		Finally: func() {
+			//log.Println("Finally...")
+		},
+	}.Do()
 }
 
 // closeConn close connection
@@ -141,24 +158,6 @@ func (nwss *TKNWSServer) broadcastData() {
 	}
 }
 
-// BroadcastMsgByte broadcast msg byte
-func (nwss *TKNWSServer) BroadcastMsgByte(message []byte) {
-	util.TCF{
-		Try: func() {
-			if len(message) > 0 {
-				// log.Printf("message: %s", message)
-				nwss.broadcast <- message
-			}
-		},
-		Catch: func(e util.Exception) {
-			log.Printf("TKNWSServer.BroadcastMsgByte Caught: %v\n", e)
-		},
-		Finally: func() {
-			//log.Println("Finally...")
-		},
-	}.Do()
-}
-
 // wsTKHandler ws handler
 func (nwss *TKNWSServer) wsTKHandler(w http.ResponseWriter, r *http.Request) {
 	// Upgrade connection
@@ -166,16 +165,17 @@ func (nwss *TKNWSServer) wsTKHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		return
 	}
+	// Add connection to NEpoll
 	if _, err := nwss.epoller.Add(conn); err != nil {
 		log.Printf("Failed to add connection: %v", err)
 		conn.Close()
 		return
 	}
-	// Push message connected successfully.
+	// Push message connected successfully to client.
 	msgsc := `{"err":0,"msg":"Connected successfully"}`
-	err1 := wsutil.WriteServerMessage(conn, ws.OpText, []byte(msgsc))
-	if err1 != nil {
-		log.Printf("Send to client failed: %v", err)
+	errw := wsutil.WriteServerMessage(conn, ws.OpText, []byte(msgsc))
+	if errw != nil {
+		log.Printf("Send to client failed: %v", errw)
 	}
 }
 

@@ -14,7 +14,7 @@ import (
 	"github.com/gobwas/ws/wsutil"
 )
 
-var epoller *epoll
+var epoller *NEpoll
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	// Upgrade connection
@@ -74,7 +74,7 @@ func Start() {
 func Run() {
 	// Start epoll
 	var err error
-	epoller, err = MkEpoll()
+	epoller, err = MkNEpoll()
 	if err != nil {
 		panic(err)
 	}
