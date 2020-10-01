@@ -9,7 +9,6 @@ package nwss
 import (
 	"log"
 	"net/http"
-	"syscall"
 
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
@@ -63,23 +62,6 @@ func Start() {
 
 // Run demo
 func Run() {
-	// Increase resources limitations
-	var rlimit syscall.Rlimit
-	if err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rlimit); err != nil {
-		panic(err)
-	}
-	rlimit.Cur = rlimit.Max
-	if err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rlimit); err != nil {
-		panic(err)
-	}
-
-	// Enable pprof hooks
-	go func() {
-		if err := http.ListenAndServe("localhost:6060", nil); err != nil {
-			log.Fatalf("pprof failed: %v", err)
-		}
-	}()
-
 	// Start epoll
 	var err error
 	epoller, err = MkEpoll()

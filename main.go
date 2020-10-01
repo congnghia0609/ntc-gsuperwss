@@ -9,14 +9,16 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
+	_ "net/http/pprof"
 	"ntc-gsuperwss/nwss"
 	"os"
 	"os/signal"
 	"path/filepath"
 	"runtime"
+	"syscall"
 
 	"github.com/congnghia0609/ntc-gconf/nconf"
-
 	"github.com/natefinch/lumberjack"
 )
 
@@ -55,18 +57,42 @@ func initLogger() {
 	})
 }
 
+// increaseLimit increase resources limitations: ulimit -a
+func increaseLimit() {
+	var rlimit syscall.Rlimit
+	if err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rlimit); err != nil {
+		panic(err)
+	}
+	rlimit.Cur = rlimit.Max
+	if err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rlimit); err != nil {
+		panic(err)
+	}
+	log.Printf("rlimit.Max = %d\n", rlimit.Max)
+	log.Printf("rlimit.Cur = %d\n", rlimit.Cur)
+}
+
 // https://github.com/eranyanay/1m-go-websockets/
 // https://github.com/gobwas/ws
 func main() {
-	////// -------------------- Init System -------------------- //////
-	// Init NConf
-	InitNConf()
+	// ////// -------------------- Init System -------------------- //////
+	// // Init NConf
+	// InitNConf()
 
-	//// init Logger
-	if "development" != nconf.GetEnv() {
-		log.Printf("============== LogFile: /data/log/ntc-gwss/ntc-gwss.log")
-		initLogger()
-	}
+	// //// init Logger
+	// if "development" != nconf.GetEnv() {
+	// 	log.Printf("============== LogFile: /data/log/ntc-gwss/ntc-gwss.log")
+	// 	initLogger()
+	// }
+
+	// Increase resources limitations
+	increaseLimit()
+
+	// Enable pprof hooks
+	go func() {
+		if err := http.ListenAndServe("localhost:6060", nil); err != nil {
+			log.Fatalf("pprof failed: %v", err)
+		}
+	}()
 
 	////// -------------------- Start WSServer -------------------- //////
 	// //// Run DPWSServer
