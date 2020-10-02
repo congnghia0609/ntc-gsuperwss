@@ -3,25 +3,45 @@ market:
   listpair: ETH_USDT;BTC_USDT
 
 
-depthpriceclient:
-  nwsc:
-    scheme: wss
-    host: engine2.kryptono.exchange
-    path: /ws/v1/dp/BTC_USDT
-
 ticker24hclient:
   nwsc:
     scheme: wss
     host: engine2.kryptono.exchange
     path: /ws/v1/tk
 
+depthpriceclient:
+  nwsc:
+    scheme: wss
+    host: engine2.kryptono.exchange
+    path: /ws/v1/dp/BTC_USDT
 
-depthprice:
-  nwss:
-    host: 0.0.0.0:15501
+historytradeclient:
+  nwsc:
+    scheme: wss
+    host: engine2.kryptono.exchange
+    path: /ws/v1/ht/BTC_USDT
+
+candlesticksclient:
+  nwsc:
+    scheme: wss
+    host: engine2.kryptono.exchange
+    path: /ws/v1/cs/BTC_USDT@1m
+
+
 
 ticker24h:
   nwss:
     host: 0.0.0.0:15801
     # path: /ws/v1/tk
 
+depthprice:
+  nwss:
+    host: 0.0.0.0:15501
+
+historytrade:
+  nwss:
+    host: 0.0.0.0:15701
+
+candlesticks:
+  nwss:
+    host: 0.0.0.0:15601

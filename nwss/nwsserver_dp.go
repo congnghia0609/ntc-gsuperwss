@@ -33,7 +33,7 @@ type DPNWSServer struct {
 // mapInstanceDP management instance
 var mapInstanceDP = make(map[string]*DPNWSServer)
 
-// GetInstanceDP get instance TK
+// GetInstanceDP get instance DP
 func GetInstanceDP(name string) *DPNWSServer {
 	return mapInstanceDP[name]
 }

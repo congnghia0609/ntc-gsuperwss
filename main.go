@@ -25,20 +25,18 @@ import (
 
 // //// Declare Global
 // // WSServer
-var dpnwss *nwss.DPNWSServer
-
-// var htnwss *nwss.HTNWSServer
-// var csnwss *nwss.CSNWSServer
 var tknwss *nwss.TKNWSServer
+var dpnwss *nwss.DPNWSServer
+var htnwss *nwss.HTNWSServer
+var csnwss *nwss.CSNWSServer
 
 // var crnwss *nwss.CRNWSServer
 
 // // WSClient
-var dpnwsc *nwsc.NWSClient
-
-// var csnwsc *nwsc.NWSClient
-// var htnwsc *nwsc.NWSClient
 var tknwsc *nwsc.NWSClient
+var dpnwsc *nwsc.NWSClient
+var htnwsc *nwsc.NWSClient
+var csnwsc *nwsc.NWSClient
 
 // var crnwsc *nwsc.NWSClient
 // var rsnwsc *nwsc.NWSClient
@@ -103,26 +101,51 @@ func main() {
 	nwss.InitMapSymbol()
 
 	////// -------------------- Start NWSServer -------------------- //////
-	//// Run DPWSServer
-	dpnwss = nwss.NewDPNWSServer(nwss.NameDPNWSS)
-	log.Printf("======= DPNWSServer[%s] is ready...", dpnwss.GetName())
-	go dpnwss.Start()
-
 	//// Run TKNWSServer
 	tknwss = nwss.NewTKNWSServer(nwss.NameTKNWSS)
 	log.Printf("======= TKNWSServer[%s] is ready...", tknwss.GetName())
 	go tknwss.Start()
 
-	////// -------------------- Start NWSClient -------------------- //////
-	// // DPNWSClient
-	dpnwsc = nwsc.NewDPNWSClient()
-	defer dpnwsc.Close()
-	go dpnwsc.StartDPWSClient()
+	//// Run DPNWSServer
+	dpnwss = nwss.NewDPNWSServer(nwss.NameDPNWSS)
+	log.Printf("======= DPNWSServer[%s] is ready...", dpnwss.GetName())
+	go dpnwss.Start()
 
-	// // // TKWSClient
-	// tknwsc = nwsc.NewTKWSClient()
+	//// Run HTNWSServer
+	htnwss = nwss.NewHTNWSServer(nwss.NameHTNWSS)
+	log.Printf("======= HTNWSServer[%s] is ready...", htnwss.GetName())
+	go htnwss.Start()
+
+	//// Run CSNWSServer
+	csnwss = nwss.NewCSNWSServer(nwss.NameCSNWSS)
+	log.Printf("======= CSNWSServer[%s] is ready...", csnwss.GetName())
+	go csnwss.Start()
+
+	////// -------------------- Start NWSClient -------------------- //////
+	// // // TKNWSClient
+	// tknwsc = nwsc.NewTKNWSClient()
 	// defer tknwsc.Close()
-	// go tknwsc.StartTKWSClient()
+	// go tknwsc.StartTKNWSClient()
+
+	// // // DPNWSClient
+	// dpnwsc = nwsc.NewDPNWSClient()
+	// defer dpnwsc.Close()
+	// go dpnwsc.StartDPNWSClient()
+
+	// // // HTNWSClient
+	// htnwsc = nwsc.NewHTNWSClient()
+	// defer htnwsc.Close()
+	// go htnwsc.StartHTNWSClient()
+
+	// // // CSNWSClient
+	// csnwsc = nwsc.NewCSNWSClient()
+	// defer csnwsc.Close()
+	// go csnwsc.StartCSNWSClient()
+
+	// // CRNWSClient
+	crnwsc = nwsc.NewCRNWSClient()
+	defer crnwsc.Close()
+	go crnwsc.StartCRNWSClient()
 
 	////// -------------------- Start WebServer -------------------- //////
 	// // StartWebServer

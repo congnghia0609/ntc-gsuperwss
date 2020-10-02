@@ -100,7 +100,7 @@ func NewDPNWSClient() *NWSClient {
 	scheme := c.GetString(NameDPWSC + ".nwsc.scheme")
 	address := c.GetString(NameDPWSC + ".nwsc.host")
 	path := c.GetString(NameDPWSC + ".nwsc.path")
-	log.Printf("################ DPWSClient[%s] start...", NameDPWSC)
+	log.Printf("################ DPNWSClient[%s] start...", NameDPWSC)
 	dpwsc, _ = NewInstanceWSC(NameDPWSC, scheme, address, path)
 	// dpwsc, _ = NewInstanceWSC(NameDPWSC, "ws", address, "/dataws/depth")
 	// dpwsc, _ = NewInstanceWSC(NameDPWSC, "ws", "localhost:15501", "/ws/v1/dp/ETH_BTC")
@@ -108,8 +108,8 @@ func NewDPNWSClient() *NWSClient {
 	return dpwsc
 }
 
-// StartDPWSClient start
-func (nwsc *NWSClient) StartDPWSClient() {
+// StartDPNWSClient start
+func (nwsc *NWSClient) StartDPNWSClient() {
 	// Thread receive message.
 	go nwsc.recvDP()
 	// Thread send message.

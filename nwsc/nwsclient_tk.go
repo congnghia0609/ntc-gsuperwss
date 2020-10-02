@@ -91,8 +91,8 @@ func (nwsc *NWSClient) sendTK() {
 	}.Do()
 }
 
-// NewTKWSClient new instance TKWSClient of NWSClient
-func NewTKWSClient() *NWSClient {
+// NewTKNWSClient new instance TKWSClient of NWSClient
+func NewTKNWSClient() *NWSClient {
 	var tkwsc *NWSClient
 	c := nconf.GetConfig()
 	scheme := c.GetString(NameTKWSC + ".nwsc.scheme")
@@ -106,8 +106,8 @@ func NewTKWSClient() *NWSClient {
 	return tkwsc
 }
 
-// StartTKWSClient start
-func (nwsc *NWSClient) StartTKWSClient() {
+// StartTKNWSClient start
+func (nwsc *NWSClient) StartTKNWSClient() {
 	// Thread receive message.
 	go nwsc.recvTK()
 	// Thread send message.
