@@ -23,15 +23,15 @@ import (
 	"github.com/natefinch/lumberjack"
 )
 
-// //// Declare Global
-// // WSServer
+//// Declare Global
+// WSServer
 var tknwss *nwss.TKNWSServer
 var dpnwss *nwss.DPNWSServer
 var htnwss *nwss.HTNWSServer
 var csnwss *nwss.CSNWSServer
 var crnwss *nwss.CRNWSServer
 
-// // WSClient
+// WSClient
 var tknwsc *nwsc.NWSClient
 var dpnwsc *nwsc.NWSClient
 var htnwsc *nwsc.NWSClient
@@ -40,8 +40,8 @@ var crnwsc *nwsc.NWSClient
 
 // var rsnwsc *nwsc.NWSClient
 
-// InitNConf init file config
-func InitNConf() {
+// initNConf init file config
+func initNConf() {
 	_, b, _, _ := runtime.Caller(0)
 	wdir := filepath.Dir(b)
 	fmt.Println("wdir:", wdir)
@@ -73,21 +73,19 @@ func increaseLimit() {
 	log.Printf("rlimit.Cur = %d\n", rlimit.Cur)
 }
 
-// https://github.com/eranyanay/1m-go-websockets/
-// https://github.com/gobwas/ws
 func main() {
-	// ////// -------------------- Init System -------------------- //////
-	// Init NConf
-	InitNConf()
-
-	// //// init Logger
-	// if "development" != nconf.GetEnv() {
-	// 	log.Printf("============== LogFile: /data/log/ntc-gwss/ntc-gwss.log")
-	// 	initLogger()
-	// }
-
+	////// -------------------- Init System -------------------- //////
 	// Increase resources limitations
 	increaseLimit()
+
+	// Init NConf
+	initNConf()
+
+	//// Init Logger
+	if "development" != nconf.GetEnv() {
+		log.Printf("============== LogFile: /data/log/ntc-gsuperwss/ntc-gsuperwss.log")
+		initLogger()
+	}
 
 	// Enable pprof hooks
 	go func() {
