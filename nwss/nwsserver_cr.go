@@ -96,7 +96,7 @@ func (nwss *CRNWSServer) readClientData() {
 	for {
 		connections, err := nwss.epoller.Wait()
 		if err != nil {
-			log.Printf("Failed to epoll wait: %v", err)
+			// log.Printf("Failed to epoll wait: %v", err)
 			continue
 		}
 		for _, conn := range connections {
