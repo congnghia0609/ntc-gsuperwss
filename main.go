@@ -25,21 +25,23 @@ import (
 
 // //// Declare Global
 // // WSServer
-// var dpwss *wss.DPWSServer
-// var htwss *wss.HTWSServer
-// var cswss *wss.CSWSServer
+var dpnwss *nwss.DPNWSServer
+
+// var htnwss *nwss.HTNWSServer
+// var csnwss *nwss.CSNWSServer
 var tknwss *nwss.TKNWSServer
 
-// var crwss *wss.CRWSServer
+// var crnwss *nwss.CRNWSServer
 
 // // WSClient
-// var dpwsc *wsc.NWSClient
-// var cswsc *wsc.NWSClient
-// var htwsc *wsc.NWSClient
-var tkwsc *nwsc.NWSClient
+var dpnwsc *nwsc.NWSClient
 
-// var crwsc *wsc.NWSClient
-// var rswsc *wsc.NWSClient
+// var csnwsc *nwsc.NWSClient
+// var htnwsc *nwsc.NWSClient
+var tknwsc *nwsc.NWSClient
+
+// var crnwsc *nwsc.NWSClient
+// var rsnwsc *nwsc.NWSClient
 
 // InitNConf init file config
 func InitNConf() {
@@ -97,26 +99,30 @@ func main() {
 		}
 	}()
 
-	////// -------------------- Start WSServer -------------------- //////
-	// //// Run DPWSServer
-	// dpwss = wss.NewDPWSServer(wss.NameDPWSS)
-	// log.Printf("======= DPWSServer[%s] is ready...", dpwss.GetName())
-	// go dpwss.Start()
+	//// initMapSymbol
+	nwss.InitMapSymbol()
+
+	////// -------------------- Start NWSServer -------------------- //////
+	//// Run DPWSServer
+	dpnwss = nwss.NewDPNWSServer(nwss.NameDPNWSS)
+	log.Printf("======= DPNWSServer[%s] is ready...", dpnwss.GetName())
+	go dpnwss.Start()
+
 	//// Run TKNWSServer
 	tknwss = nwss.NewTKNWSServer(nwss.NameTKNWSS)
 	log.Printf("======= TKNWSServer[%s] is ready...", tknwss.GetName())
 	go tknwss.Start()
 
-	////// -------------------- Start WSClient -------------------- //////
-	// // // DPWSClient
-	// dpwsc = wsc.NewDPWSClient()
-	// defer dpwsc.Close()
-	// go dpwsc.StartDPWSClient()
+	////// -------------------- Start NWSClient -------------------- //////
+	// // DPNWSClient
+	dpnwsc = nwsc.NewDPNWSClient()
+	defer dpnwsc.Close()
+	go dpnwsc.StartDPWSClient()
 
-	// // TKWSClient
-	tkwsc = nwsc.NewTKWSClient()
-	defer tkwsc.Close()
-	go tkwsc.StartTKWSClient()
+	// // // TKWSClient
+	// tknwsc = nwsc.NewTKWSClient()
+	// defer tknwsc.Close()
+	// go tknwsc.StartTKWSClient()
 
 	////// -------------------- Start WebServer -------------------- //////
 	// // StartWebServer

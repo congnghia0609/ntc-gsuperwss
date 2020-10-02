@@ -95,10 +95,10 @@ func (nwsc *NWSClient) sendTK() {
 func NewTKWSClient() *NWSClient {
 	var tkwsc *NWSClient
 	c := nconf.GetConfig()
-	scheme := c.GetString(NameTKWSC + ".wsc.scheme")
-	address := c.GetString(NameTKWSC + ".wsc.host")
-	path := c.GetString(NameTKWSC + ".wsc.path")
-	log.Printf("################ TKWSClient[%s] start...", NameTKWSC)
+	scheme := c.GetString(NameTKWSC + ".nwsc.scheme")
+	address := c.GetString(NameTKWSC + ".nwsc.host")
+	path := c.GetString(NameTKWSC + ".nwsc.path")
+	log.Printf("################ TKNWSClient[%s] start...", NameTKWSC)
 	tkwsc, _ = NewInstanceWSC(NameTKWSC, scheme, address, path)
 	// tkwsc, _ = NewInstanceWSC(NameTKWSC, "ws", address, "/dataws/ticker24h")
 	// tkwsc, _ = NewInstanceWSC(NameTKWSC, "ws", "localhost:15801", "/ws/v1/tk")
