@@ -29,16 +29,15 @@ var tknwss *nwss.TKNWSServer
 var dpnwss *nwss.DPNWSServer
 var htnwss *nwss.HTNWSServer
 var csnwss *nwss.CSNWSServer
-
-// var crnwss *nwss.CRNWSServer
+var crnwss *nwss.CRNWSServer
 
 // // WSClient
 var tknwsc *nwsc.NWSClient
 var dpnwsc *nwsc.NWSClient
 var htnwsc *nwsc.NWSClient
 var csnwsc *nwsc.NWSClient
+var crnwsc *nwsc.NWSClient
 
-// var crnwsc *nwsc.NWSClient
 // var rsnwsc *nwsc.NWSClient
 
 // InitNConf init file config
@@ -121,26 +120,31 @@ func main() {
 	log.Printf("======= CSNWSServer[%s] is ready...", csnwss.GetName())
 	go csnwss.Start()
 
+	//// Run CRNWSServer
+	crnwss = nwss.NewCRNWSServer(nwss.NameCRNWSS)
+	log.Printf("======= CRNWSServer[%s] is ready...", crnwss.GetName())
+	go crnwss.Start()
+
 	////// -------------------- Start NWSClient -------------------- //////
-	// // // TKNWSClient
-	// tknwsc = nwsc.NewTKNWSClient()
-	// defer tknwsc.Close()
-	// go tknwsc.StartTKNWSClient()
+	// // TKNWSClient
+	tknwsc = nwsc.NewTKNWSClient()
+	defer tknwsc.Close()
+	go tknwsc.StartTKNWSClient()
 
-	// // // DPNWSClient
-	// dpnwsc = nwsc.NewDPNWSClient()
-	// defer dpnwsc.Close()
-	// go dpnwsc.StartDPNWSClient()
+	// // DPNWSClient
+	dpnwsc = nwsc.NewDPNWSClient()
+	defer dpnwsc.Close()
+	go dpnwsc.StartDPNWSClient()
 
-	// // // HTNWSClient
-	// htnwsc = nwsc.NewHTNWSClient()
-	// defer htnwsc.Close()
-	// go htnwsc.StartHTNWSClient()
+	// // HTNWSClient
+	htnwsc = nwsc.NewHTNWSClient()
+	defer htnwsc.Close()
+	go htnwsc.StartHTNWSClient()
 
-	// // // CSNWSClient
-	// csnwsc = nwsc.NewCSNWSClient()
-	// defer csnwsc.Close()
-	// go csnwsc.StartCSNWSClient()
+	// // CSNWSClient
+	csnwsc = nwsc.NewCSNWSClient()
+	defer csnwsc.Close()
+	go csnwsc.StartCSNWSClient()
 
 	// // CRNWSClient
 	crnwsc = nwsc.NewCRNWSClient()

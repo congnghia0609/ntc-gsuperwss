@@ -27,12 +27,17 @@ candlesticksclient:
     host: engine2.kryptono.exchange
     path: /ws/v1/cs/BTC_USDT@1m
 
+cerberusclient:
+  nwsc:
+    scheme: wss
+    host: engine2.kryptono.exchange
+    path: /ws/v1/cr/BTC_USDT
+
 
 
 ticker24h:
   nwss:
     host: 0.0.0.0:15801
-    # path: /ws/v1/tk
 
 depthprice:
   nwss:
@@ -45,3 +50,7 @@ historytrade:
 candlesticks:
   nwss:
     host: 0.0.0.0:15601
+
+cerberus:
+  nwss:
+    host: 0.0.0.0:18001

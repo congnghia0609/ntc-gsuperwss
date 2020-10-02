@@ -97,14 +97,14 @@ func (nwsc *NWSClient) sendCR() {
 func NewCRNWSClient() *NWSClient {
 	var crnwsc *NWSClient
 	c := nconf.GetConfig()
-	scheme := c.GetString(NameCSWSC + ".nwsc.scheme")
-	address := c.GetString(NameCSWSC + ".nwsc.host")
-	path := c.GetString(NameCSWSC + ".nwsc.path")
-	log.Printf("################ CRNWSClient[%s] start...", NameCSWSC)
-	crnwsc, _ = NewInstanceWSC(NameCSWSC, scheme, address, path)
-	// crnwsc, _ = NewInstanceWSC(NameCSWSC, "ws", address, "/dataws/depth")
-	// crnwsc, _ = NewInstanceWSC(NameCSWSC, "ws", "localhost:15501", "/ws/v1/dp/ETH_BTC")
-	// crnwsc, _ = NewInstanceWSC(NameCSWSC, "wss", "engine2.kryptono.exchange", "/ws/v1/dp/ETH_BTC")
+	scheme := c.GetString(NameCRWSC + ".nwsc.scheme")
+	address := c.GetString(NameCRWSC + ".nwsc.host")
+	path := c.GetString(NameCRWSC + ".nwsc.path")
+	log.Printf("################ CRNWSClient[%s] start...", NameCRWSC)
+	crnwsc, _ = NewInstanceWSC(NameCRWSC, scheme, address, path)
+	// crnwsc, _ = NewInstanceWSC(NameCRWSC, "ws", address, "/dataws/depth")
+	// crnwsc, _ = NewInstanceWSC(NameCRWSC, "ws", "localhost:15501", "/ws/v1/dp/ETH_BTC")
+	// crnwsc, _ = NewInstanceWSC(NameCRWSC, "wss", "engine2.kryptono.exchange", "/ws/v1/dp/ETH_BTC")
 	return crnwsc
 }
 
