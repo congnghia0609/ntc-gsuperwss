@@ -89,6 +89,7 @@ func main() {
 
 	// Enable pprof hooks
 	go func() {
+		// http://localhost:6060/debug/pprof/
 		if err := http.ListenAndServe("localhost:6060", nil); err != nil {
 			log.Fatalf("pprof failed: %v", err)
 		}
