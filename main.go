@@ -8,11 +8,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/congnghia0609/ntc-gsuperwss/nwss"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
-	"ntc-gsuperwss/nwsc"
-	"ntc-gsuperwss/nwss"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -32,12 +31,11 @@ var csnwss *nwss.CSNWSServer
 var crnwss *nwss.CRNWSServer
 
 // WSClient
-var tknwsc *nwsc.NWSClient
-var dpnwsc *nwsc.NWSClient
-var htnwsc *nwsc.NWSClient
-var csnwsc *nwsc.NWSClient
-var crnwsc *nwsc.NWSClient
-
+//var tknwsc *nwsc.NWSClient
+//var dpnwsc *nwsc.NWSClient
+//var htnwsc *nwsc.NWSClient
+//var csnwsc *nwsc.NWSClient
+//var crnwsc *nwsc.NWSClient
 // var rsnwsc *nwsc.NWSClient
 
 // initNConf init file config
@@ -125,30 +123,30 @@ func main() {
 	go crnwss.Start()
 
 	////// -------------------- Start NWSClient -------------------- //////
-	// // TKNWSClient
-	tknwsc = nwsc.NewTKNWSClient()
-	defer tknwsc.Close()
-	go tknwsc.StartTKNWSClient()
-
-	// // DPNWSClient
-	dpnwsc = nwsc.NewDPNWSClient()
-	defer dpnwsc.Close()
-	go dpnwsc.StartDPNWSClient()
-
-	// // HTNWSClient
-	htnwsc = nwsc.NewHTNWSClient()
-	defer htnwsc.Close()
-	go htnwsc.StartHTNWSClient()
-
-	// // CSNWSClient
-	csnwsc = nwsc.NewCSNWSClient()
-	defer csnwsc.Close()
-	go csnwsc.StartCSNWSClient()
-
-	// // CRNWSClient
-	crnwsc = nwsc.NewCRNWSClient()
-	defer crnwsc.Close()
-	go crnwsc.StartCRNWSClient()
+	//// // TKNWSClient
+	//tknwsc = nwsc.NewTKNWSClient()
+	//defer tknwsc.Close()
+	//go tknwsc.StartTKNWSClient()
+	//
+	//// // DPNWSClient
+	//dpnwsc = nwsc.NewDPNWSClient()
+	//defer dpnwsc.Close()
+	//go dpnwsc.StartDPNWSClient()
+	//
+	//// // HTNWSClient
+	//htnwsc = nwsc.NewHTNWSClient()
+	//defer htnwsc.Close()
+	//go htnwsc.StartHTNWSClient()
+	//
+	//// // CSNWSClient
+	//csnwsc = nwsc.NewCSNWSClient()
+	//defer csnwsc.Close()
+	//go csnwsc.StartCSNWSClient()
+	//
+	//// // CRNWSClient
+	//crnwsc = nwsc.NewCRNWSClient()
+	//defer crnwsc.Close()
+	//go crnwsc.StartCRNWSClient()
 
 	////// -------------------- Start WebServer -------------------- //////
 	// // StartWebServer

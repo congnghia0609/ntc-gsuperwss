@@ -8,10 +8,10 @@ package nwss
 
 import (
 	"encoding/json"
+	"github.com/congnghia0609/ntc-gsuperwss/util"
 	"log"
 	"net"
 	"net/http"
-	"ntc-gsuperwss/util"
 	"strings"
 
 	"github.com/congnghia0609/ntc-gconf/nconf"

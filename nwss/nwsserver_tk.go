@@ -7,10 +7,10 @@
 package nwss
 
 import (
+	"github.com/congnghia0609/ntc-gsuperwss/util"
 	"log"
 	"net"
 	"net/http"
-	"ntc-gsuperwss/util"
 
 	"github.com/congnghia0609/ntc-gconf/nconf"
 	"github.com/gobwas/ws"

@@ -8,9 +8,9 @@ package nwsc
 
 import (
 	"fmt"
+	"github.com/congnghia0609/ntc-gsuperwss/nwss"
+	"github.com/congnghia0609/ntc-gsuperwss/util"
 	"log"
-	"ntc-gsuperwss/nwss"
-	"ntc-gsuperwss/util"
 	"time"
 
 	"github.com/congnghia0609/ntc-gconf/nconf"
