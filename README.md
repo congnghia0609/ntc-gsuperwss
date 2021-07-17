@@ -3,11 +3,17 @@
 
 ## Install dependencies
 ```shell
-make deps
+# install library dependencies
+#make deps
+go mod download
+
+# update go.mod file
+go mod tidy
 ```
 
 ## Build
 ```shell
+export GO111MODULE=on
 make build
 ```
 
