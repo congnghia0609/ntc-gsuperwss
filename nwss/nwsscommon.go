@@ -24,6 +24,8 @@ const (
 	NameTKNWSS = "ticker24h"
 	// NameCRNWSS cerberus
 	NameCRNWSS = "cerberus"
+	// NameSTNWSS stream
+	NameSTNWSS = "stream"
 )
 
 // MapSymbol Const

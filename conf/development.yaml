@@ -33,6 +33,12 @@ cerberusclient:
     host: engine2.kryptono.exchange
     path: /ws/v1/cr/BTC_USDT
 
+streamclient:
+  nwsc:
+    scheme: wss
+    host: stream.binance.com
+    path: /stream
+
 
 
 ticker24h:
@@ -54,3 +60,7 @@ candlesticks:
 cerberus:
   nwss:
     host: 0.0.0.0:18001
+
+stream:
+  nwss:
+    host: 0.0.0.0:19001

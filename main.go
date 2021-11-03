@@ -8,6 +8,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/congnghia0609/ntc-gsuperwss/nwsc"
 	"github.com/congnghia0609/ntc-gsuperwss/nwss"
 	"log"
 	"net/http"
@@ -24,6 +25,7 @@ import (
 
 //// Declare Global
 // WSServer
+var stnwss *nwss.STNWSServer
 var tknwss *nwss.TKNWSServer
 var dpnwss *nwss.DPNWSServer
 var htnwss *nwss.HTNWSServer
@@ -31,6 +33,7 @@ var csnwss *nwss.CSNWSServer
 var crnwss *nwss.CRNWSServer
 
 // WSClient
+var stnwsc *nwsc.NWSClient
 //var tknwsc *nwsc.NWSClient
 //var dpnwsc *nwsc.NWSClient
 //var htnwsc *nwsc.NWSClient
@@ -97,32 +100,42 @@ func main() {
 	nwss.InitMapSymbol()
 
 	////// -------------------- Start NWSServer -------------------- //////
-	//// Run TKNWSServer
-	tknwss = nwss.NewTKNWSServer(nwss.NameTKNWSS)
-	log.Printf("======= TKNWSServer[%s] is ready...", tknwss.GetName())
-	go tknwss.Start()
+	//// Run STNWSServer
+	//stnwss = nwss.NewSTNWSServer(nwss.NameSTNWSS)
+	//log.Printf("======= STNWSServer[%s] is ready...", stnwss.GetName())
+	//go stnwss.Start()
 
-	//// Run DPNWSServer
-	dpnwss = nwss.NewDPNWSServer(nwss.NameDPNWSS)
-	log.Printf("======= DPNWSServer[%s] is ready...", dpnwss.GetName())
-	go dpnwss.Start()
-
-	//// Run HTNWSServer
-	htnwss = nwss.NewHTNWSServer(nwss.NameHTNWSS)
-	log.Printf("======= HTNWSServer[%s] is ready...", htnwss.GetName())
-	go htnwss.Start()
-
-	//// Run CSNWSServer
-	csnwss = nwss.NewCSNWSServer(nwss.NameCSNWSS)
-	log.Printf("======= CSNWSServer[%s] is ready...", csnwss.GetName())
-	go csnwss.Start()
-
-	//// Run CRNWSServer
-	crnwss = nwss.NewCRNWSServer(nwss.NameCRNWSS)
-	log.Printf("======= CRNWSServer[%s] is ready...", crnwss.GetName())
-	go crnwss.Start()
+	////// Run TKNWSServer
+	//tknwss = nwss.NewTKNWSServer(nwss.NameTKNWSS)
+	//log.Printf("======= TKNWSServer[%s] is ready...", tknwss.GetName())
+	//go tknwss.Start()
+	//
+	////// Run DPNWSServer
+	//dpnwss = nwss.NewDPNWSServer(nwss.NameDPNWSS)
+	//log.Printf("======= DPNWSServer[%s] is ready...", dpnwss.GetName())
+	//go dpnwss.Start()
+	//
+	////// Run HTNWSServer
+	//htnwss = nwss.NewHTNWSServer(nwss.NameHTNWSS)
+	//log.Printf("======= HTNWSServer[%s] is ready...", htnwss.GetName())
+	//go htnwss.Start()
+	//
+	////// Run CSNWSServer
+	//csnwss = nwss.NewCSNWSServer(nwss.NameCSNWSS)
+	//log.Printf("======= CSNWSServer[%s] is ready...", csnwss.GetName())
+	//go csnwss.Start()
+	//
+	////// Run CRNWSServer
+	//crnwss = nwss.NewCRNWSServer(nwss.NameCRNWSS)
+	//log.Printf("======= CRNWSServer[%s] is ready...", crnwss.GetName())
+	//go crnwss.Start()
 
 	////// -------------------- Start NWSClient -------------------- //////
+	// STNWSClient
+	stnwsc = nwsc.NewSTNWSClient()
+	defer stnwsc.Close()
+	go stnwsc.StartSTNWSClient()
+
 	//// // TKNWSClient
 	//tknwsc = nwsc.NewTKNWSClient()
 	//defer tknwsc.Close()

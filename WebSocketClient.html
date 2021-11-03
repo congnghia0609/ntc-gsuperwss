@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--
+Copyright 2018 nghiatc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+<head>
+  <title>WebSocketTest</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script type="text/javascript">
+      var ws;
+
+      function WebSocketTest() {
+          if ("WebSocket" in window) {
+              //alert("WebSocket is supported by your Browser!");
+              // Let us open a web socket
+
+              // LOCAL_NEW
+              //ws = new WebSocket("ws://127.0.0.1:15801/");              // Ticker24h
+              //ws = new WebSocket("ws://127.0.0.1:15601/ETH_BTC@1m");    // Candlesticks
+
+              //ws = new WebSocket("ws://127.0.0.1:15501/ETH_BTC");       // Depth Price
+              //ws = new WebSocket("ws://127.0.0.1:15701/ETH_BTC");       // History Trade
+
+              // LOCAL GOLANG.
+              //ws = new WebSocket("ws://127.0.0.1:15801/ws/v1/tk");                          // Ticker24h
+              //ws = new WebSocket("ws://127.0.0.1:15501/ws/v1/dp/ETH_BTC");                    // Depth Price
+              //ws = new WebSocket("ws://127.0.0.1:15701/ws/v1/ht/ETH_BTC");                  // History Trade
+              //ws = new WebSocket("ws://127.0.0.1:15601/ws/v1/cs/ETH_BTC@1m");               // Candlesticks
+
+              // Binance
+              // https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md
+              // ws = new WebSocket("wss://stream.binance.us:9443/stream");
+              ws = new WebSocket("wss://stream.binance.com/stream");
+              // ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@depth");
+              // ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
+              // ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
+              // ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@ticker");
+
+              ws.onopen = function () {
+                  console.log('open: Web Socket is opened.');
+                  // Web Socket is connected, send data using send()
+                  //ws.send("Message to send");
+                  //alert("Message is sent...");
+                  msg = "{\"method\":\"SUBSCRIBE\",\"params\":[\"!miniTicker@arr@3000ms\",\"btcusdt@aggTrade\",\"btcusdt@depth\",\"btcusdt@kline_1d\"],\"id\":1}"
+                  ws.send(msg);
+                  // sub = "{\"method\":\"SUBSCRIBE\",\"params\":[\"btcusdt@aggTrade\",\"btcusdt@depth\",\"btcusdt@kline_1d\"],\"id\":2}"
+                  // unsub = "{\"method\":\"UNSUBSCRIBE\",\"params\":[\"hotusdt@kline_1d\",\"hotusdt@depth\",\"hotusdt@aggTrade\"],\"id\":3}"
+              };
+
+              ws.onmessage = function (evt) {
+                  var received_msg = evt.data;
+                  console.log('received_msg: ' + received_msg);
+                  //alert("Message is received...");
+              };
+
+              ws.onerror = function (error) {
+                  console.log('error: ' + error);
+                  console.log(error);
+                  ws.close();
+              };
+
+              ws.onclose = function () {
+                  // websocket is closed.
+                  //alert("Connection is closed...");
+              };
+
+              window.onbeforeunload = function (event) {
+                  ws.close();
+              };
+          } else {
+              // The browser doesn't support WebSocket
+              alert("WebSocket NOT supported by your Browser!");
+          }
+      }
+
+      function stopWebSocketTest() {
+          if (ws) {
+              console.log('close: Web Socket is closed.');
+              ws.close();
+          }
+      }
+  </script>
+</head>
+<body>
+<div id="sse">
+  <a href="javascript:WebSocketTest()">Start WebSocket</a>
+  <br><br>
+  <a href="javascript:stopWebSocketTest()">Stop WebSocket</a>
+</div>
+</body>
+</html>

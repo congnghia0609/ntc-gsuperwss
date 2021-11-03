@@ -60,6 +60,7 @@ func NewInstanceWSC(name string, scheme string, host string, path string) (*NWSC
 				//log.Fatal("dial:", err)
 			}
 			mapInstanceWSC[name] = nws
+			log.Println("NewInstanceWSC done!!!")
 		},
 		Catch: func(e util.Exception) {
 			log.Printf("wsc.NewInstanceWSC Caught %v\n", e)

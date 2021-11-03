@@ -19,4 +19,6 @@ const (
 	NameRSWSC = "reloadsymbolclient"
 	// NameCRWSC cerberusclient
 	NameCRWSC = "cerberusclient"
+	// NameSTWSC streamclient
+	NameSTWSC = "streamclient"
 )
