@@ -8,6 +8,7 @@ package nwsc
 
 import (
 	"fmt"
+	"github.com/congnghia0609/ntc-gsuperwss/nwss"
 	"github.com/congnghia0609/ntc-gsuperwss/util"
 	"log"
 	"time"
@@ -29,12 +30,12 @@ func (nwsc *NWSClient) recvST() {
 					// return
 				}
 				log.Printf("recvST: %s", message)
-				//if len(message) > 0 {
-				//	stwss := nwss.GetInstanceST(nwss.NameSTNWSS)
-				//	if stwss != nil {
-				//		stwss.BroadcastMsgByte(message)
-				//	}
-				//}
+				if len(message) > 0 {
+					stwss := nwss.GetInstanceST(nwss.NameSTNWSS)
+					if stwss != nil {
+						stwss.BroadcastMsgByte(message)
+					}
+				}
 			}
 		},
 		Catch: func(e util.Exception) {
@@ -109,6 +110,7 @@ func (nwsc *NWSClient) StartSTNWSClient() {
 	go nwsc.recvST()
 	// Thread send message.
 	//go nwsc.sendST()
+	// Send message subscribe.
 	msg := "{\"method\":\"SUBSCRIBE\",\"params\":[\"!miniTicker@arr@3000ms\",\"btcusdt@aggTrade\",\"btcusdt@depth\",\"btcusdt@kline_1d\"],\"id\":1}"
 	nwsc.conn.WriteMessage(websocket.TextMessage, []byte(msg))
 }

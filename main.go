@@ -101,9 +101,9 @@ func main() {
 
 	////// -------------------- Start NWSServer -------------------- //////
 	//// Run STNWSServer
-	//stnwss = nwss.NewSTNWSServer(nwss.NameSTNWSS)
-	//log.Printf("======= STNWSServer[%s] is ready...", stnwss.GetName())
-	//go stnwss.Start()
+	stnwss = nwss.NewSTNWSServer(nwss.NameSTNWSS)
+	log.Printf("======= STNWSServer[%s] is ready...", stnwss.GetName())
+	go stnwss.Start()
 
 	////// Run TKNWSServer
 	//tknwss = nwss.NewTKNWSServer(nwss.NameTKNWSS)
