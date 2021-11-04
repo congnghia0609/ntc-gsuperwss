@@ -55,8 +55,8 @@ limitations under the License.
                   // Web Socket is connected, send data using send()
                   //ws.send("Message to send");
                   //alert("Message is sent...");
-                  msg = "{\"method\":\"SUBSCRIBE\",\"params\":[\"!miniTicker@arr@3000ms\",\"btcusdt@aggTrade\",\"btcusdt@depth\",\"btcusdt@kline_1d\"],\"id\":1}"
-                  ws.send(msg);
+                  // msg = "{\"method\":\"SUBSCRIBE\",\"params\":[\"!miniTicker@arr@3000ms\",\"btcusdt@aggTrade\",\"btcusdt@depth\",\"btcusdt@kline_1d\"],\"id\":1}"
+                  // ws.send(msg);
                   // sub = "{\"method\":\"SUBSCRIBE\",\"params\":[\"btcusdt@aggTrade\",\"btcusdt@depth\",\"btcusdt@kline_1d\"],\"id\":2}"
                   // unsub = "{\"method\":\"UNSUBSCRIBE\",\"params\":[\"hotusdt@kline_1d\",\"hotusdt@depth\",\"hotusdt@aggTrade\"],\"id\":3}"
               };
@@ -87,6 +87,13 @@ limitations under the License.
           }
       }
 
+      function subscribeWebSocketTest() {
+          if (ws) {
+              msg = "{\"method\":\"SUBSCRIBE\",\"params\":[\"!miniTicker@arr@3000ms\",\"btcusdt@aggTrade\",\"btcusdt@depth\",\"btcusdt@kline_1d\"],\"id\":1}"
+              ws.send(msg);
+          }
+      }
+
       function stopWebSocketTest() {
           if (ws) {
               console.log('close: Web Socket is closed.');
@@ -98,6 +105,8 @@ limitations under the License.
 <body>
 <div id="sse">
   <a href="javascript:WebSocketTest()">Start WebSocket</a>
+  <br><br>
+  <a href="javascript:subscribeWebSocketTest()">Subscribe WebSocket</a>
   <br><br>
   <a href="javascript:stopWebSocketTest()">Stop WebSocket</a>
 </div>
