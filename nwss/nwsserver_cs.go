@@ -149,23 +149,28 @@ func (nwss *CSNWSServer) broadcastData() {
 						// log.Printf("message: %s", message)
 						var data map[string]interface{}
 						json.Unmarshal([]byte(message), &data)
-						if data["s"] != nil && data["tt"] != nil {
+						if data["s"] != nil && data["k"] != nil {
 							symbol := data["s"].(string)
-							tt := data["tt"].(string)
-							// log.Printf("HubLevel2.broadcast {symbol=%s,typeTime=%s}", symbol, tt)
-							if len(symbol) > 0 && len(tt) > 0 {
-								key := symbol + "@" + tt
-								for fd := range nwss.symbolTTConn[key] {
-									conn := nwss.epoller.GetConn(fd)
-									if conn != nil {
-										// Send message to client
-										err := wsutil.WriteServerMessage(conn, ws.OpText, message)
-										if err != nil {
-											log.Printf("Send to client failed: %v", err)
+							k := data["k"].(map[string]interface{})
+							if k["i"] != nil {
+								tt := k["i"].(string)
+								// log.Printf("HubLevel2.broadcast {symbol=%s,typeTime=%s}", symbol, tt)
+								if len(symbol) > 0 && len(tt) > 0 {
+									symbol = strings.ToLower(symbol)
+									tt = strings.ToLower(tt)
+									key := symbol + "@" + tt
+									for fd := range nwss.symbolTTConn[key] {
+										conn := nwss.epoller.GetConn(fd)
+										if conn != nil {
+											// Send message to client
+											err := wsutil.WriteServerMessage(conn, ws.OpText, message)
+											if err != nil {
+												log.Printf("Send to client failed: %v", err)
+											}
+										} else {
+											// Delete fd from map symbolTTConn
+											delete(nwss.symbolTTConn[key], fd)
 										}
-									} else {
-										// Delete fd from map symbolTTConn
-										delete(nwss.symbolTTConn[key], fd)
 									}
 								}
 							}
@@ -193,12 +198,13 @@ func (nwss *CSNWSServer) wsCSHandler(w http.ResponseWriter, r *http.Request) {
 	if len(stt) <= 0 {
 		return
 	}
+	stt = strings.ToLower(stt)
 	arrSTT := strings.Split(stt, "@")
 	if len(arrSTT) != 2 {
 		return
 	}
-	symbol := strings.ToUpper(arrSTT[0])
-	tt := arrSTT[1]
+	symbol := strings.ToLower(arrSTT[0])
+	tt := strings.ToLower(arrSTT[1])
 	log.Printf("=======symbol: %s, typeTime: %s", symbol, tt)
 	_, ok1 := MapSymbol[symbol]
 	_, ok2 := TypeTime[tt]

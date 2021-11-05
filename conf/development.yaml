@@ -1,37 +1,37 @@
 
 market:
-  listpair: ETH_USDT;BTC_USDT
+  listpair: ethusdt;btcusdt
 
 
 ticker24hclient:
   nwsc:
     scheme: wss
-    host: engine2.kryptono.exchange
-    path: /ws/v1/tk
+    host: stream.binance.com:9443
+    path: /ws/btcusdt@ticker
 
 depthpriceclient:
   nwsc:
     scheme: wss
-    host: engine2.kryptono.exchange
-    path: /ws/v1/dp/BTC_USDT
+    host: stream.binance.com:9443
+    path: /ws/btcusdt@depth
 
 historytradeclient:
   nwsc:
     scheme: wss
-    host: engine2.kryptono.exchange
-    path: /ws/v1/ht/BTC_USDT
+    host: stream.binance.com:9443
+    path: /ws/btcusdt@trade
 
 candlesticksclient:
   nwsc:
     scheme: wss
-    host: engine2.kryptono.exchange
-    path: /ws/v1/cs/BTC_USDT@1m
+    host: stream.binance.com:9443
+    path: /ws/btcusdt@kline_1m
 
 cerberusclient:
   nwsc:
     scheme: wss
-    host: engine2.kryptono.exchange
-    path: /ws/v1/cr/BTC_USDT
+    host: stream.streetcodevn.com
+    path: /ws/v1/cr/btcusdt
 
 streamclient:
   nwsc:

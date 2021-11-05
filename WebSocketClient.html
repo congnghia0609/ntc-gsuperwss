@@ -28,19 +28,12 @@ limitations under the License.
               //alert("WebSocket is supported by your Browser!");
               // Let us open a web socket
 
-              // LOCAL_NEW
-              //ws = new WebSocket("ws://127.0.0.1:15801/");              // Ticker24h
-              //ws = new WebSocket("ws://127.0.0.1:15601/ETH_BTC@1m");    // Candlesticks
-
-              //ws = new WebSocket("ws://127.0.0.1:15501/ETH_BTC");       // Depth Price
-              //ws = new WebSocket("ws://127.0.0.1:15701/ETH_BTC");       // History Trade
-
               // LOCAL GOLANG.
-              ws = new WebSocket("ws://127.0.0.1:19001/stream");                          // Stream
+              // ws = new WebSocket("ws://127.0.0.1:19001/stream");                            // Stream
               // ws = new WebSocket("ws://127.0.0.1:15801/ws/v1/tk");                          // Ticker24h
-              //ws = new WebSocket("ws://127.0.0.1:15501/ws/v1/dp/ETH_BTC");                    // Depth Price
-              //ws = new WebSocket("ws://127.0.0.1:15701/ws/v1/ht/ETH_BTC");                  // History Trade
-              //ws = new WebSocket("ws://127.0.0.1:15601/ws/v1/cs/ETH_BTC@1m");               // Candlesticks
+              // ws = new WebSocket("ws://127.0.0.1:15501/ws/v1/dp/btcusdt");                  // Depth Price
+              // ws = new WebSocket("ws://127.0.0.1:15701/ws/v1/ht/btcusdt");                  // History Trade
+              ws = new WebSocket("ws://127.0.0.1:15601/ws/v1/cs/btcusdt@1m");               // Candlesticks
 
               // Binance
               // https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md

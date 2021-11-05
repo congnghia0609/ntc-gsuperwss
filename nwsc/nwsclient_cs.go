@@ -29,7 +29,7 @@ func (nwsc *NWSClient) recvCS() {
 					nwsc.Reconnect()
 					// return
 				}
-				// log.Printf("recvCS: %s", message)
+				log.Printf("recvCS: %s", message)
 				if len(message) > 0 {
 					// CSNWSServer
 					csnwss := nwss.GetInstanceCS(nwss.NameCSNWSS)
@@ -102,9 +102,7 @@ func NewCSNWSClient() *NWSClient {
 	path := c.GetString(NameCSWSC + ".nwsc.path")
 	log.Printf("################ CSNWSClient[%s] start...", NameCSWSC)
 	csnwsc, _ = NewInstanceWSC(NameCSWSC, scheme, address, path)
-	// csnwsc, _ = NewInstanceWSC(NameCSWSC, "ws", address, "/dataws/depth")
-	// csnwsc, _ = NewInstanceWSC(NameCSWSC, "ws", "localhost:15501", "/ws/v1/dp/ETH_BTC")
-	// csnwsc, _ = NewInstanceWSC(NameCSWSC, "wss", "engine2.kryptono.exchange", "/ws/v1/dp/ETH_BTC")
+	// csnwsc, _ = NewInstanceWSC(NameCSWSC, "wss", "stream.binance.com:9443", "/ws/btcusdt@kline_1m")
 	return csnwsc
 }
 

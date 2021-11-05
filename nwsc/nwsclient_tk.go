@@ -29,7 +29,7 @@ func (nwsc *NWSClient) recvTK() {
 					nwsc.Reconnect()
 					// return
 				}
-				// log.Printf("recvTK: %s", message)
+				log.Printf("recvTK: %s", message)
 				if len(message) > 0 {
 					tkwss := nwss.GetInstanceTK(nwss.NameTKNWSS)
 					if tkwss != nil {
@@ -100,9 +100,7 @@ func NewTKNWSClient() *NWSClient {
 	path := c.GetString(NameTKWSC + ".nwsc.path")
 	log.Printf("################ TKNWSClient[%s] start...", NameTKWSC)
 	tkwsc, _ = NewInstanceWSC(NameTKWSC, scheme, address, path)
-	// tkwsc, _ = NewInstanceWSC(NameTKWSC, "ws", address, "/dataws/ticker24h")
-	// tkwsc, _ = NewInstanceWSC(NameTKWSC, "ws", "localhost:15801", "/ws/v1/tk")
-	// tkwsc, _ = NewInstanceWSC(NameTKWSC, "wss", "engine2.kryptono.exchange", "/ws/v1/tk")
+	// tkwsc, _ = NewInstanceWSC(NameTKWSC, "wss", "stream.binance.com:9443", "/ws/btcusdt@ticker")
 	return tkwsc
 }
 

@@ -55,8 +55,7 @@ func InitMapSymbol() {
 	//var listpair = "ETH_BTC;KNOW_BTC;KNOW_ETH"
 	var arrSymbol = strings.Split(listpair, ";")
 	// log.Printf("arrSymbol: ", arrSymbol)
-	for i := range arrSymbol {
-		symbol := arrSymbol[i]
+	for _, symbol := range arrSymbol {
 		MapSymbol[symbol] = symbol
 	}
 	log.Printf("=========== MapSymbol: %v", MapSymbol)
@@ -68,8 +67,7 @@ func ReloadMapSymbol(listpair string) {
 	if listpair != "" {
 		var arrSymbol = strings.Split(listpair, ";")
 		// log.Printf("arrSymbol: ", arrSymbol)
-		for i := range arrSymbol {
-			symbol := arrSymbol[i]
+		for _, symbol := range arrSymbol {
 			//// If not exist, add to MapSymbol
 			if _, ok := MapSymbol[symbol]; !ok {
 				MapSymbol[symbol] = symbol

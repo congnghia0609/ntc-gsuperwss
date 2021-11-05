@@ -153,6 +153,7 @@ func (nwss *DPNWSServer) broadcastData() {
 							symbol := data["s"].(string)
 							// log.Printf("DPNWSServer.broadcast.symbol=%s", symbol)
 							if len(symbol) > 0 {
+								symbol = strings.ToLower(symbol)
 								for fd := range nwss.symbolConn[symbol] {
 									conn := nwss.epoller.GetConn(fd)
 									if conn != nil {
@@ -191,7 +192,7 @@ func (nwss *DPNWSServer) wsDPHandler(w http.ResponseWriter, r *http.Request) {
 	if len(symbol) <= 0 {
 		return
 	}
-	symbol = strings.ToUpper(symbol)
+	symbol = strings.ToLower(symbol)
 	log.Printf("=======symbol: %s", symbol)
 	if _, ok := MapSymbol[symbol]; !ok {
 		return
