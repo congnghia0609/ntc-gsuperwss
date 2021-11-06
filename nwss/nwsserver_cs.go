@@ -104,13 +104,9 @@ func (nwss *CSNWSServer) readClientData() {
 				continue
 			}
 			// msg, op, err := wsutil.ReadClientData(conn)
-			// msg, _, err := wsutil.ReadClientData(conn)
+			//msg, _, err := wsutil.ReadClientData(conn)
 			_, _, err := wsutil.ReadClientData(conn)
 			if err != nil {
-				// if err := nwss.epoller.Remove(conn); err != nil {
-				// 	log.Printf("Failed to remove: %v", err)
-				// }
-				// conn.Close()
 				nwss.closeConn(conn)
 			} else {
 				/// Process Business Here.
@@ -123,7 +119,7 @@ func (nwss *CSNWSServer) readClientData() {
 				}
 
 				// // broadcast message
-				// nwss.broadcast <- msg
+				//nwss.broadcast <- msg
 
 				// This is commented out since in demo usage,
 				// stdout is showing messages sent from > 1M connections at very high rate

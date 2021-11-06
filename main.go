@@ -8,8 +8,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/congnghia0609/ntc-gconf/nconf"
 	"github.com/congnghia0609/ntc-gsuperwss/nwsc"
 	"github.com/congnghia0609/ntc-gsuperwss/nwss"
+	"github.com/natefinch/lumberjack"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
@@ -18,9 +20,6 @@ import (
 	"path/filepath"
 	"runtime"
 	"syscall"
-
-	"github.com/congnghia0609/ntc-gconf/nconf"
-	"github.com/natefinch/lumberjack"
 )
 
 //// Declare Global
@@ -33,11 +32,11 @@ var csnwss *nwss.CSNWSServer
 var crnwss *nwss.CRNWSServer
 
 // WSClient
-//var stnwsc *nwsc.NWSClient
+var stnwsc *nwsc.NWSClient
 //var tknwsc *nwsc.NWSClient
 //var dpnwsc *nwsc.NWSClient
 //var htnwsc *nwsc.NWSClient
-var csnwsc *nwsc.NWSClient
+//var csnwsc *nwsc.NWSClient
 //var crnwsc *nwsc.NWSClient
 // var rsnwsc *nwsc.NWSClient
 
@@ -101,9 +100,9 @@ func main() {
 
 	////// -------------------- Start NWSServer -------------------- //////
 	////// Run STNWSServer
-	//stnwss = nwss.NewSTNWSServer(nwss.NameSTNWSS)
-	//log.Printf("======= STNWSServer[%s] is ready...", stnwss.GetName())
-	//go stnwss.Start()
+	stnwss = nwss.NewSTNWSServer(nwss.NameSTNWSS)
+	log.Printf("======= STNWSServer[%s] is ready...", stnwss.GetName())
+	go stnwss.Start()
 
 	////// Run TKNWSServer
 	//tknwss = nwss.NewTKNWSServer(nwss.NameTKNWSS)
@@ -120,10 +119,10 @@ func main() {
 	//log.Printf("======= HTNWSServer[%s] is ready...", htnwss.GetName())
 	//go htnwss.Start()
 
-	//// Run CSNWSServer
-	csnwss = nwss.NewCSNWSServer(nwss.NameCSNWSS)
-	log.Printf("======= CSNWSServer[%s] is ready...", csnwss.GetName())
-	go csnwss.Start()
+	////// Run CSNWSServer
+	//csnwss = nwss.NewCSNWSServer(nwss.NameCSNWSS)
+	//log.Printf("======= CSNWSServer[%s] is ready...", csnwss.GetName())
+	//go csnwss.Start()
 
 	////// Run CRNWSServer
 	//crnwss = nwss.NewCRNWSServer(nwss.NameCRNWSS)
@@ -132,9 +131,9 @@ func main() {
 
 	////// -------------------- Start NWSClient -------------------- //////
 	//// STNWSClient
-	//stnwsc = nwsc.NewSTNWSClient()
-	//defer stnwsc.Close()
-	//go stnwsc.StartSTNWSClient()
+	stnwsc = nwsc.NewSTNWSClient()
+	defer stnwsc.Close()
+	go stnwsc.StartSTNWSClient()
 
 	//// // TKNWSClient
 	//tknwsc = nwsc.NewTKNWSClient()
@@ -151,10 +150,11 @@ func main() {
 	//defer htnwsc.Close()
 	//go htnwsc.StartHTNWSClient()
 
-	// // CSNWSClient
-	csnwsc = nwsc.NewCSNWSClient()
-	defer csnwsc.Close()
-	go csnwsc.StartCSNWSClient()
+	//// // CSNWSClient
+	////time.Sleep(2 * time.Second)
+	//csnwsc = nwsc.NewCSNWSClient()
+	//defer csnwsc.Close()
+	//go csnwsc.StartCSNWSClient()
 
 	//// // CRNWSClient
 	//crnwsc = nwsc.NewCRNWSClient()

@@ -97,10 +97,6 @@ func (nwss *TKNWSServer) readClientData() {
 			// msg, _, err := wsutil.ReadClientData(conn)
 			_, _, err := wsutil.ReadClientData(conn)
 			if err != nil {
-				// if err := nwss.epoller.Remove(conn); err != nil {
-				// 	log.Printf("Failed to remove: %v", err)
-				// }
-				// conn.Close()
 				nwss.closeConn(conn)
 			} else {
 				/// Process Business Here.

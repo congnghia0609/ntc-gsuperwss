@@ -60,7 +60,9 @@ func (nwsc *NWSClient) sendHT() {
 					//err := nws.conn.WriteMessage(websocket.TextMessage, []byte(t.String()))
 					msec := t.UnixNano() / 1000000
 					///// 1. Historytrade Data.
-					data := `{"p":"0.05567000","q":"1.84100000","c":1533886283334,"s":"ETH_BTC","t":` + fmt.Sprint(msec) + `,"e":"history_trade","k":514102,"m":true}`
+					//data := `{"p":"0.05567000","q":"1.84100000","c":1533886283334,"s":"ETH_BTC","t":` + fmt.Sprint(msec) + `,"e":"history_trade","k":514102,"m":true}`
+					// `{"e":"trade","E":1636173505636,"s":"BTCUSDT","t":1131790077,"p":"61222.15000000","q":"0.03684000","b":8174232110,"a":8174232100,"T":1636173505635,"m":false,"M":true}`
+					data := `{"e":"trade","E":` + fmt.Sprint(msec) + `,"s":"BTCUSDT","t":1131790077,"p":"61222.15000000","q":"0.03684000","b":8174232110,"a":8174232100,"T":1636173505635,"m":false,"M":true}`
 					err := nwsc.conn.WriteMessage(websocket.TextMessage, []byte(data))
 					if err != nil {
 						log.Println("write:", err)
@@ -103,6 +105,7 @@ func NewHTNWSClient() *NWSClient {
 	log.Printf("################ HTNWSClient[%s] start...", NameHTWSC)
 	htnwsc, _ = NewInstanceWSC(NameHTWSC, scheme, address, path)
 	// htnwsc, _ = NewInstanceWSC(NameHTWSC, "wss", "stream.binance.com:9443", "/ws/btcusdt@trade")
+	// htnwsc, _ = NewInstanceWSC(NameHTWSC, "ws", "127.0.0.1:15701", "/ws/v1/ht/btcusdt")
 	return htnwsc
 }
 

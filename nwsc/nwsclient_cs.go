@@ -8,12 +8,12 @@ package nwsc
 
 import (
 	"fmt"
+	"github.com/congnghia0609/ntc-gconf/nconf"
 	"github.com/congnghia0609/ntc-gsuperwss/nwss"
 	"github.com/congnghia0609/ntc-gsuperwss/util"
 	"log"
 	"time"
 
-	"github.com/congnghia0609/ntc-gconf/nconf"
 	"github.com/gorilla/websocket"
 )
 
@@ -60,7 +60,9 @@ func (nwsc *NWSClient) sendCS() {
 					//err := nws.conn.WriteMessage(websocket.TextMessage, []byte(t.String()))
 					msec := t.UnixNano() / 1000000
 					///// 1. Candlesticks Data.
-					data := `{"tt":"1h","s":"ETH_BTC","t":` + fmt.Sprint(msec) + `,"e":"kline","k":{"c":"0.00028022","t":1533715200000,"v":"905062.00000000","h":"0.00028252","l":"0.00027787","o":"0.00027919"}}`
+					//data := `{"tt":"1h","s":"ETH_BTC","t":` + fmt.Sprint(msec) + `,"e":"kline","k":{"c":"0.00028022","t":1533715200000,"v":"905062.00000000","h":"0.00028252","l":"0.00027787","o":"0.00027919"}}`
+					// `{"e":"kline","E":1636171101344,"s":"BTCUSDT","k":{"t":1636171080000,"T":1636171139999,"s":"BTCUSDT","i":"1m","f":1131770177,"L":1131770292,"o":"61100.12000000","c":"61104.67000000","h":"61106.78000000","l":"61100.12000000","v":"1.46715000","n":116,"x":false,"q":"89648.55667500","V":"0.56696000","Q":"34643.38531240","B":"0"}}`
+					data := `{"e":"kline","E":` + fmt.Sprint(msec) + `,"s":"BTCUSDT","k":{"t":1636171080000,"T":1636171139999,"s":"BTCUSDT","i":"1m","f":1131770177,"L":1131770292,"o":"61100.12000000","c":"61104.67000000","h":"61106.78000000","l":"61100.12000000","v":"1.46715000","n":116,"x":false,"q":"89648.55667500","V":"0.56696000","Q":"34643.38531240","B":"0"}}`
 					err := nwsc.conn.WriteMessage(websocket.TextMessage, []byte(data))
 					if err != nil {
 						log.Println("write:", err)
@@ -103,6 +105,7 @@ func NewCSNWSClient() *NWSClient {
 	log.Printf("################ CSNWSClient[%s] start...", NameCSWSC)
 	csnwsc, _ = NewInstanceWSC(NameCSWSC, scheme, address, path)
 	// csnwsc, _ = NewInstanceWSC(NameCSWSC, "wss", "stream.binance.com:9443", "/ws/btcusdt@kline_1m")
+	//csnwsc, _ = NewInstanceWSC(NameCSWSC, "ws", "127.0.0.1:15601", "/ws/v1/cs/btcusdt@1m")
 	return csnwsc
 }
 
